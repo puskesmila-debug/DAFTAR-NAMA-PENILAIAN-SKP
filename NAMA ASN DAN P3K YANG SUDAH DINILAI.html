@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikasi Penilaian Puskesmas Mila 2025</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f9; margin: 0; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 95%; margin: auto; }
+        
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 5px; text-transform: uppercase; }
+        p.subtitle { text-align: center; color: #7f8c8d; margin-bottom: 30px; font-size: 14px; }
+        
+        /* Area Filter */
+        .filter-group { 
+            display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; align-items: flex-end;
+            background: #f8fbff; padding: 20px; border-radius: 10px; border: 1px solid #d1e3f8; flex-wrap: wrap;
+        }
+        .filter-item { display: flex; flex-direction: column; gap: 8px; }
+        label { font-weight: bold; color: #34495e; font-size: 13px; }
+        select, input { 
+            padding: 10px; border-radius: 6px; border: 1px solid #ced4da; 
+            min-width: 180px; outline: none; font-size: 14px;
+        }
+
+        /* Tabel Judul Biru Sky */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; border-radius: 8px; overflow: hidden; }
+        th { 
+            background-color: #87CEEB; /* Sky Blue */
+            color: #ffffff; 
+            padding: 15px 12px; 
+            border: 1px solid #74bbda; 
+            font-size: 12px; 
+            text-transform: uppercase; 
+        }
+
+        td { padding: 12px; border: 1px solid #eee; font-size: 13px; color: #333; }
+        tr:nth-child(even) { background-color: #fcfdfe; }
+        tr:hover { background-color: #f1f8ff; transition: 0.2s; }
+
+        /* Badge Status & Keterangan */
+        .status-badge { 
+            padding: 5px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; 
+            color: white; display: inline-block; min-width: 110px; text-align: center;
+            text-transform: uppercase;
+        }
+        .bg-sudah { background-color: #27ae60; } /* Hijau */
+        .bg-belum { background-color: #e74c3c; } /* Merah */
+        .bg-proses { background-color: #3498db; } /* Biru Sky */
+        
+        .text-center { text-align: center; }
+        .fw-bold { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>DAFTAR PENILAIAN PEGAWAI PUSKESMAS MILA</h2>
+    <p class="subtitle">Monitoring Sasaran Kinerja Pegawai (SKP) Tahun 2025</p>
+
+    <div class="filter-group">
+        <div class="filter-item">
+            <label>Cari Nama:</label>
+            <input type="text" id="inputNama" onkeyup="jalankanFilter()" placeholder="Ketik nama...">
+        </div>
+        <div class="filter-item">
+            <label>Status Pegawai:</label>
+            <select id="pilihJenis" onchange="jalankanFilter()">
+                <option value="semua">-- Semua Status --</option>
+                <option value="ASN">ASN</option>
+                <option value="P3K">P3K</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <label>Jenis RHK:</label>
+            <select id="pilihPeriode" onchange="jalankanFilter()">
+                <option value="semua">-- Semua Periode --</option>
+                <option value="Tahunan">Tahunan</option>
+                <option value="Bulanan">Bulanan</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <label>Status Penilaian:</label>
+            <select id="pilihStatusNilai" onchange="jalankanFilter()">
+                <option value="semua">-- Semua Penilaian --</option>
+                <option value="sudah">SUDAH DINILAI</option>
+                <option value="belum">BELUM DINILAI</option>
+            </select>
+        </div>
+    </div>
+
+    <table id="tabelPegawai">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Lengkap</th>
+                <th>NIP</th>
+                <th>Jabatan</th>
+                <th>Jenis RHK</th>
+                <th>Status Penilaian</th>
+                <th>Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-jenis="ASN" data-periode="Bulanan" data-status="sudah">
+                <td class="text-center">1</td>
+                <td class="fw-bold">Sulaiha, A.Md. AK</td>
+                <td class="text-center">199704212020122010</td>
+                <td>Pranata Labkes</td>
+                <td class="text-center">Bulanan</td>
+                <td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">2</td>
+                <td class="fw-bold">Syakbaniah. SKM</td>
+                <td class="text-center">197907052008012001</td>
+                <td>Tenaga Promosi Kesehatan dan Ilmu Prilaku Ahli Muda</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td>
+                <td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Bulanan" data-status="sudah">
+                <td class="text-center">3</td>
+                <td class="fw-bold">Syakbaniah. SKM</td>
+                <td class="text-center">197907052008012001</td>
+                <td>Penyelia Sanitasi</td>
+                <td class="text-center">Bulanan</td>
+                <td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td>
+                <td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">4</td>
+                <td class="fw-bold">Bd. Nurrahmi, S.Keb</td>
+                <td class="text-center">198604242017052003</td>
+                <td>Bidan Mahir</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td>
+                <td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Bulanan" data-status="sudah">
+                <td class="text-center">5</td>
+                <td class="fw-bold">Susilawati. SKM</td>
+               <td class="text-center">197912312008012002</td>
+                <td>Perawat Penyelia</td>
+                <td class="text-center">Bulanan</td>
+                <td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td>
+                <td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">6</td><td class="fw-bold">Susilawati. SKM</td><td class="text-center">197912312008012002</td><td>Tenaga Promosi Kesehatan dan Ilmu Prilaku Ahli Muda</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Bulanan" data-status="sudah">
+                <td class="text-center">7</td><td class="fw-bold">Cekmi, SKM</td><td class="text-center">197404212007012003</td><td>Bidan Penyelia</td><td class="text-center">Bulanan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">8</td><td class="fw-bold">Cekmi, SKM</td><td class="text-center">197404212007012003</td><td>Tenaga Promosi Kesehatan dan Ilmu Perilaku Ahli Muda</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Bulanan" data-status="sudah">
+                <td class="text-center">9</td><td class="fw-bold">Zurrahmah, SKM</td><td class="text-center">197709192008012002</td><td>Bidan Penyelia</td><td class="text-center">Bulanan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">10</td><td class="fw-bold">Zurrahmah, SKM</td><td class="text-center">197709192008012002</td><td>Tenaga Promosi Kesehatan dan Ilmu Perilaku Ahli Muda</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">11</td><td class="fw-bold">Milawati. SKM</td><td class="text-center">197501162007012002</td><td>Bidan Penyelia</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="P3K" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">12</td><td class="fw-bold">dr. Diajeng Dara Rahmi</td><td class="text-center">199207172023212005</td><td>Ahli Pertama - Dokter</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">13</td><td class="fw-bold">Ainal Mardhiah. SKM</td><td class="text-center">197411262014012001</td><td>Sanitarian Mahir</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">14</td><td class="fw-bold">Mahdalena, A.md.kes</td><td class="text-center">199905102022022002</td><td>Tenaga Sanitasi Lingkungan Terampil</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">Isi Realisasi</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">15</td><td class="fw-bold">Cut Rizaliyah, A.Md.Keb</td><td class="text-center">198809092017052003</td><td>Bidan Mahir</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">16</td><td class="fw-bold">Bd. Cut Maulidar, S.Keb</td><td class="text-center">198402162017052001</td><td>Bidan Mahir</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">Isi Realisasi</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">17</td><td class="fw-bold">Bd. Nova Susanti, S.Keb</td><td class="text-center">198801012017052008</td><td>Bidan Mahir</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">18</td><td class="fw-bold">Hasnawati, S.Keb</td><td class="text-center">198401202017052005</td><td>Bidan Mahir</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">19</td><td class="fw-bold">Wahyuni, A.Md.Keb</td><td class="text-center">198002052019052001</td><td>Bidan Terampil</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td><td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="P3K" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">20</td><td class="fw-bold">Jannatun Mawar, A.Md.Gz</td><td class="text-center">199012012023212005</td><td>Terampil- Nutrisionis</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">21</td><td class="fw-bold">Dr. Yunisa Fithra</td><td class="text-center">199304132022022002</td><td>Dokter Ahli Pertama</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">22</td><td class="fw-bold">Irmawati, A.Md.Keb</td><td class="text-center">197601032007012003</td><td>Bidan Penyelia</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">Perbaiki Link</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">23</td><td class="fw-bold">Maulidar Rahmi, S.ST</td><td class="text-center">198204062012122004</td><td>Bidan Ahli Muda</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">24</td><td class="fw-bold">drg. Nasrina Phonna</td><td class="text-center">199207012022022002</td><td>Dokter Gigi Ahli Pertama</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">25</td><td class="fw-bold">Khairunnisa, SKM</td><td class="text-center">198209012008012001</td><td>Penyuluh Kesehatan Masyarakat Ahli Pertama</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">Bukti Dukung</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">26</td><td class="fw-bold">Muhammad Daud, SKM</td><td class="text-center">197201151994031004</td><td>Tenaga Promosi Kesehatan dan Ilmu Perilaku Ahli Muda</td><td class="text-center">Tahunan</td><td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span></td><td class="text-center"><span class="status-badge bg-belum">Perbaiki Link</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="sudah">
+                <td class="text-center">27</td>
+                <td class="fw-bold">Nazilah, SKM</td>
+                <td class="text-center">198206092010012031</td>
+                <td>Tenaga Promosi Kesehatan dan Ilmu Perilaku Ahli Pertama</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-sudah">SUDAH DINILAI</span></td>
+                <td class="text-center"><span class="status-badge bg-proses">Selesai</span></td>
+            </tr>
+            <tr data-jenis="P3K" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">28</td>
+                <td class="fw-bold">Fakhrurrazi, A.Md.Farm</td>
+                <td class="text-center">199203012023211002</td>
+                <td>Terampil - Asisten Apoteker</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">Isi Realisasi</span></td>
+            </tr>
+            <tr data-jenis="P3K" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">29</td>
+                <td class="fw-bold">Hamidah, A.Md.Kep</td>
+                <td class="text-center">198201122023212004</td>
+                <td>Terampil - Perawat</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">Isi Realisasi</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">30</td>
+                <td class="fw-bold">Yunidawati, SKM</td>
+                <td class="text-center">198208152008012001</td>
+                <td>Tenaga Promosi Kesehatan dan Ilmu Perilaku Ahli Muda</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">Perbaiki Link</span></td>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">31</td>
+                <td class="fw-bold">Yunidawati, SKM</td>
+                <td class="text-center">198208152008012001</td>
+                <td>Tenaga Promosi Kesehatan dan Ilmu Perilaku Ahli Muda</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">Perbaiki Link</span></td>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">32</td>
+                <td class="fw-bold">Karmila, SKM</td>
+                <td class="text-center">197810052008012002</td>
+                <td>Bidan Pelaksana Lanjutan / Mahir</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">33</td>
+                <td class="fw-bold">Yusra, AMd.Gizi</td>
+                <td class="text-center">198707142022022002</td>
+                <td>Nutrisionis Terampil</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">33</td>
+                <td class="fw-bold">Buniyamin</td>
+                <td class="text-center">196912312007011445</td>
+                <td>Pengadministrasi Umum</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">34</td>
+                <td class="fw-bold">Ridwan, SKM</td>
+                <td class="text-center">196812251994031004</td>
+                <td>Penyuluh Kesehatan Masyarakat Ahli Muda</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">35</td>
+                <td class="fw-bold">Safrina, Amd.Farm</td>
+                <td class="text-center">198610262022022002</td>
+                <td>Asisten Apoteker Terampil</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">Isi Realisasi & Link Pdf Dijadikan Satu</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">36</td>
+                <td class="fw-bold">Bd. Mutia Kholizah, S.Keb</td>
+                <td class="text-center">198512212017052004</td>
+                <td>Bidan Mahir</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">37</td>
+                <td class="fw-bold">Mukhlis, SKM</td>
+                <td class="text-center">197606152007011005</td>
+                <td>Tenaga Promosi Kesehatan dan Ilmu Perilaku Ahli Muda</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">Isi Realisasi</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">38</td>
+                <td class="fw-bold">Apt. Nanda Hidayati, S.Farm.</td>
+                <td class="text-center">199411082022022002</td>
+                <td>Apoteker Ahli Pertama</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">39</td>
+                <td class="fw-bold">Ainatul Fitria, A.Md.Ak</td>
+                <td class="text-center">199103022022022001</td>
+                <td>Pranata Laboratorium Kesehatan Terampil</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">40</td>
+                <td class="fw-bold">Nurbahri, A.Md.Keb</td>
+                <td class="text-center">197110081991012001</td>
+                <td>Perawat Penyelia</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="ASN" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">41</td>
+                <td class="fw-bold">Hetti Sasmita, A.Md.Kep</td>
+                <td class="text-center">198703142019032007</td>
+                <td>Perawat Terampil</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="P3K" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">42</td>
+                <td class="fw-bold">drg. Mukhzan</td>
+                <td class="text-center">198802122023211002</td>
+                <td>Ahli Pertama - Dokter Gigi</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+            <tr data-jenis="P3K" data-periode="Tahunan" data-status="belum">
+                <td class="text-center">43</td>
+                <td class="fw-bold">Tutia Rahmi, A.Md.Kep.</td>
+                <td class="text-center">199108232024212014</td>
+                <td>Perawat Terampil</td>
+                <td class="text-center">Tahunan</td>
+                <td class="text-center"><span class="status-badge bg-belum">BELUM DINILAI</span>
+                </td><td class="text-center"><span class="status-badge bg-belum">BELUM</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function jalankanFilter() {
+        const nm = document.getElementById("inputNama").value.toLowerCase();
+        const jn = document.getElementById("pilihJenis").value;
+        const pr = document.getElementById("pilihPeriode").value;
+        const st = document.getElementById("pilihStatusNilai").value;
+        
+        const rows = document.querySelectorAll("#tabelPegawai tbody tr");
+
+        rows.forEach(row => {
+            const textNama = row.cells[1].innerText.toLowerCase();
+            const dataJenis = row.getAttribute("data-jenis");
+            const dataPeriode = row.getAttribute("data-periode");
+            const dataStatus = row.getAttribute("data-status");
+
+            const matchNama = textNama.includes(nm);
+            const matchJenis = (jn === "semua" || dataJenis === jn);
+            const matchPeriode = (pr === "semua" || dataPeriode === pr);
+            const matchStatus = (st === "semua" || dataStatus === st);
+
+            row.style.display = (matchNama && matchJenis && matchPeriode && matchStatus) ? "" : "none";
+        });
+    }
+</script>
+
+</body>
+</html>
